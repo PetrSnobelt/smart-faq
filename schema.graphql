@@ -1,5 +1,5 @@
-# source: https://graphql.kiwi.com
-# timestamp: Mon Sep 10 2018 12:03:21 GMT+0300 (EEST)
+# source: http://localhost:3000
+# timestamp: Fri Sep 21 2018 17:12:18 GMT+0200 (CEST)
 
 schema {
   query: RootQuery
@@ -1299,8 +1299,10 @@ type HotelAvailabilityEdge {
 Overall statistics related to all hotels matching search & filter criteria
 """
 type HotelAvailabilityStats {
-  priceMax: Float
-  priceMin: Float
+  priceMax: Float @deprecated(reason: "Use \"maxPrice\" field instead.")
+  priceMin: Float @deprecated(reason: "Use \"minPrice\" field instead.")
+  minPrice: Float
+  maxPrice: Float
 }
 
 type HotelCity {
@@ -2082,7 +2084,9 @@ type RootQuery {
     last: Int
   ): DynamicPackageConnection
 
-  """Retrieve list of FAQ categories."""
+  """
+  DEPRECATED - use "FAQSection" query instead.Retrieve list of FAQ categories.
+  """
   allFAQCategories(
     """
     Fetch only subsection of FAQ based on the current situation of customer.
@@ -2201,6 +2205,14 @@ type RootQuery {
   FAQCategory(
     """ID of FAQ category to retrieve."""
     id: ID!
+  ): FAQCategory
+
+  """Retrieve category by section."""
+  FAQSection(
+    """
+    Fetch only subsection of FAQ based on the current situation of customer.
+    """
+    section: FAQSection!
   ): FAQCategory
 
   """Geography info by an IP address"""
